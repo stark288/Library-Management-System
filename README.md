@@ -25,5 +25,248 @@ Functional Requirements
 
 
 
+#The methods , fields , constructors required to Implement the Library System 
+
+Person
+Fields:
+
+private String name;
+private String email;
+Constructors:
+
+public Person(String name, String email)
+Methods:
+
+public void updatePersonalDetails(String name, String email)
+public static Person fromDBModel(ResultSet rs)
+public HashMap<String, Object> toDBModel()
+Account
+Fields:
+
+private String username;
+private String password;
+private LocalDateTime lastLoginTime; // For tracking login time
+private LocalDateTime lastLogoutTime; // For tracking logout time
+Constructors:
+
+public Account(String username, String password)
+Methods:
+
+public boolean login(String username, String password) // Updated to record login time
+public void logout() // Updated to record logout time
+public boolean changePassword(String oldPassword, String newPassword)
+private boolean verifyCredentials()
+Librarian (Inherits from Person)
+Fields:
+
+private Account account;
+Constructors:
+
+public Librarian(String name, String email, Account account)
+Methods:
+
+public void addBook(Book book)
+public void updateBook(Book book)
+public void deleteBook(String isbn)
+public void registerPatron(Patron patron)
+public void updatePatron(Patron patron)
+public void collectFine(Patron patron, double amount)
+private void saveLibrarianToDB()
+private void updateLibrarianInDB()
+private void deleteLibrarianFromDB()
+Patron (Inherits from Person)
+Fields:
+
+private Account account;
+private Membership membership;
+Constructors:
+
+public Patron(String name, String email, Account account, Membership membership)
+Methods:
+
+public List<Book> searchBook(String criteria)
+public void borrowBook(Book book)
+public void returnBook(ReturnBook returnBook)
+public void reserveBook(Book book)
+public void payFine(double amount)
+private void savePatronToDB()
+private void updatePatronInDB()
+private void deletePatronFromDB()
+Membership
+Fields:
+
+private String membershipId;
+private LocalDate startDate;
+private LocalDate endDate;
+private String status;
+Constructors:
+
+public Membership(String membershipId, LocalDate startDate, LocalDate endDate, String status)
+Methods:
+
+public void renewMembership()
+public void cancelMembership()
+private void saveMembershipToDB()
+private void updateMembershipStatusInDB()
+Book
+Fields:
+
+private String isbn;
+private String title;
+private Author author;
+private String genre;
+private String availabilityStatus;
+Constructors:
+
+public Book(String isbn, String title, Author author, String genre, String availabilityStatus)
+Methods:
+
+public void updateAvailabilityStatus(String status)
+private void saveBookToDB()
+private void updateBookInDB()
+private void deleteBookFromDB()
+public void checkout()
+public void reserve()
+Author
+Fields:
+
+private String authorId;
+private String name;
+Constructors:
+
+public Author(String authorId, String name)
+Methods:
+
+public void updateAuthorDetails(String name)
+private void saveAuthorToDB()
+private void updateAuthorInDB()
+Catalogue
+Fields:
+
+private List<Book> books;
+Constructors:
+
+public Catalogue(List<Book> books)
+Methods:
+
+public void addBook(Book book)
+public void removeBook(String isbn)
+public List<Book> searchBooks(String criteria)
+private void loadCatalogFromDB()
+private void updateCatalogInDB()
+BorrowBook
+Fields:
+
+private String borrowId;
+private Book book;
+private Patron patron;
+private LocalDate borrowDate;
+private LocalDate dueDate;
+Constructors:
+
+public BorrowBook(String borrowId, Book book, Patron patron, LocalDate borrowDate, LocalDate dueDate)
+Methods:
+
+public void extendDueDate(LocalDate newDueDate)
+private void saveBorrowRecordToDB()
+private void updateBorrowRecordInDB()
+ReturnBook
+Fields:
+
+private String returnId;
+private BorrowBook borrow;
+private LocalDate returnDate;
+Constructors:
+
+public ReturnBook(String returnId, BorrowBook borrow, LocalDate returnDate)
+Methods:
+
+public void processReturn()
+private void saveReturnRecordToDB()
+public double calculateFine()
+Reservation
+Fields:
+
+private String reservationId;
+private Book book;
+private Patron patron;
+private LocalDate reservationDate;
+private String status;
+Constructors:
+
+public Reservation(String reservationId, Book book, Patron patron, LocalDate reservationDate, String status)
+Methods:
+
+public void cancelReservation()
+public void confirmReservation()
+private void saveReservationToDB()
+private void updateReservationStatusInDB()
+Fine
+Fields:
+
+private String fineId;
+private double amount;
+private String description;
+Constructors:
+
+public Fine(String fineId, double amount, String description)
+Methods:
+
+public void updateFineAmount(double newAmount)
+private void saveFineToDB()
+private void updateFineInDB()
+Payment
+Fields:
+
+private String paymentId;
+private double amount;
+private LocalDate paymentDate;
+private String paymentMethod;
+Constructors:
+
+public Payment(String paymentId, double amount, LocalDate paymentDate, String paymentMethod)
+Methods:
+
+public void processPayment()
+public void refundPayment()
+private void processPaymentInDB()
+private void refundPaymentInDB()
+Library
+Fields:
+
+private String libraryId;
+private String name;
+private String address;
+private List<Librarian> librarians;
+private List<Patron> patrons;
+private Catalogue catalogue;
+Constructors:
+
+public Library(String libraryId, String name, String address, List<Librarian> librarians, List<Patron> patrons, Catalogue catalogue)
+Methods:
+
+public void addLibrarian(Librarian librarian)
+public void removeLibrarian(String librarianId)
+public void addPatron(Patron patron)
+public void removePatron(String patronId)
+public void updateLibraryDetails(String name, String address)
+private void loadLibraryDetailsFromDB()
+private void updateLibraryDetailsInDB()
+public List<UserActivity> getUserActivities(int userId) // Retrieve activities for a specific user
+public List<UserActivity> getAllUserActivities() // Retrieve all user activities for reporting
+UserActivity (New Class for Tracking Activities)
+Fields:
+
+private int userId;
+private String activityType; // e.g., "Login", "Search", "Checkout"
+private String activityDetails; // e.g., book ID, search query
+private LocalDateTime timestamp; // The date and time when the activity occurred
+Constructors:
+
+public UserActivity(int userId, String activityType, String activityDetails)
+Methods:
+
+public void logActivity() // Method to log the activity to the database
+
 
 
